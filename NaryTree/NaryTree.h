@@ -68,7 +68,13 @@ public:
             //index = ancestor->indexOfChild(tmp); // indexOfChild retorna indíce do filho
         }
 
-        tmp->insertKey(t);
+        if (!tmp->isFull()) {
+            tmp->insertKey(t);
+        } else {
+            //TODO: terminar aqui*
+            Node<T> *tmp__2 = tmp->next(t);
+            tmp__2->insertKey(t);
+        }
     }
 
     void remove(T const &t) {

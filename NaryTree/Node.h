@@ -19,7 +19,7 @@ public:
 
         leaf = false;
         root = false;
-        //overflow = false;
+        full = false;
     }
 
     /**
@@ -62,8 +62,8 @@ public:
         this->keys.push_back(t);
         std::sort(keys.begin(), keys.end());
 
-        if (keys.size() == order) {
-            this->overflow = true;
+        if (keys.size() == order - 1) {
+            this->full = true;
         }
     }
 
@@ -118,10 +118,10 @@ public:
     }
 
     /**
-     * @return true se o nó está em excesso.
+     * @return true se o nó está cheio.
      */
-    bool hasOverflow() {
-        return overflow;
+    bool isFull() {
+        return full;
     }
 
     /**
@@ -180,7 +180,7 @@ private:
 
     bool root;
     bool leaf;
-    bool overflow;
+    bool full;
 
 };
 
