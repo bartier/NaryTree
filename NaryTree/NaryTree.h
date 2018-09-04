@@ -8,11 +8,11 @@ template<class T>
 class NaryTree {
 public:
 
-    explicit NaryTree<T>(const int &order) : order(order) {
+    explicit NaryTree<T>(unsigned int const &order) : order(order) {
         this->root = nullptr;
     }
 
-    int getOrder() const {
+    unsigned int getOrder() const {
         return this->order;
     }
 
@@ -43,8 +43,14 @@ public:
         }
     }
 
-    //TODO: verificar se método insert está correto
     void insert(T const &t) {
+
+        //TODO: se a árvore já possuir uma chave igual, lançar exceção.
+//        if (this->contains(t)) {
+//            /// ...
+//            /// ...
+//            /// ...
+//        }
 
         if (root == nullptr) {
 
@@ -58,22 +64,32 @@ public:
             return;
         }
 
-        //Node<T> *ancestor = nullptr;
         Node<T> *tmp = root;
-        //int index = 0;
 
         while (!tmp->isLeaf()) {
-            //ancestor = tmp;
+            unsigned int indexTmp = tmp->indexOfNext(t);
+
+            // garante que percorre a árvore por subárvores
+            if (!tmp->existsChildAt(indexTmp)) {
+                Node<T> *child = new Node<T>(order);
+                child->setLeafState(true); // verififcar
+                tmp->insertChildAt(indexTmp, child);
+            }
             tmp = tmp->next(t);
-            //index = ancestor->indexOfChild(tmp); // indexOfChild retorna indíce do filho
         }
 
         if (!tmp->isFull()) {
             tmp->insertKey(t);
         } else {
-            //TODO: terminar aqui*
-            Node<T> *tmp__2 = tmp->next(t);
-            tmp__2->insertKey(t);
+            Node<T> *childOfLeafNode = new Node<T>(order);
+            childOfLeafNode->setLeafState(true);
+            childOfLeafNode->insertKey(t);
+
+            int indexToInsertNewChildNode = tmp->indexOfNext(t);
+
+            tmp->insertChildAt(indexToInsertNewChildNode, childOfLeafNode);
+
+            tmp->setLeafState(false);
         }
     }
 
@@ -94,7 +110,7 @@ public:
 private:
     Node<T> *root;
 
-    int order;
+    unsigned int order;
 
 };
 

@@ -5,17 +5,16 @@
 #include <vector>
 #include <algorithm>
 #include <cmath>
+#include <limits>
 
 template<class T>
 class Node {
 public:
 
-    explicit Node<T>(int const &order) : order(order) {
+    explicit Node<T>(unsigned int const &order) : order(order) {
 
         this->keys.reserve(order - 1);
-        this->children.reserve(order);
-
-        //ancestor = nullptr;
+        this->children.resize(order);
 
         leaf = false;
         root = false;
@@ -42,17 +41,40 @@ public:
     }
 
     /**
-     * @param c
-     * @return o índice que o filho está no vetor de filhos
+     * Retorna o índice ideal para a criação do filho
+     * @param t
+     * @return
      */
-    int indexOfChild(Node<T> *c) {
-        for (int i = 0; i < children.size(); ++i) {
-            if (children.at(i) == c) {
+    unsigned int indexOfNext(T const &t) {
+        if (t < keys[0])
+            return 0;
+
+        for (int i = 1; i <= keys.size(); i++) {
+            if (t < keys[i] && t > keys[i - 1]) {
                 return i;
             }
         }
-        return -1; // o filho não existe no vetor de filhos
+
+        return children.size() - 1;
     }
+
+    bool existsChildAt(unsigned int const &i) {
+        return children.at(i);
+    }
+
+    /**
+     * @param c
+     * @return o índice que o filho está no vetor de filhos
+     * @return -1 se o filho não existe
+     */
+//    int indexOfChild(Node<T> *c) {
+//        for (int i = 0; i < children.size(); ++i) {
+//            if (children.at(i) == c) {
+//                return i;
+//            }
+//        }
+//        return -1; // o filho não existe no vetor de filhos
+//    }
 
     /**
      * Insere no vetor de informações a chave como parâmetro.
@@ -70,15 +92,15 @@ public:
     //TODO: não inserir em filhos já inseridos (?)
     void insertChildAt(int index, Node<T> *ch) {
         // não insere filhos já inseridos
-        if (std::find(children.begin(), children.end(), ch) != children.end()) {
-            return;
-        }
-        this->children.insert(children.begin() + index, ch);
+//        if (std::find(children.begin(), children.end(), ch) != children.end()) {
+//            return;
+//        }
+        this->children.at(index) = ch;
     }
-
-    Node<T> *childAt(int const &i) {
-        return this->children.at(i);
-    }
+//
+//    Node<T> *childAt(int const &i) {
+//        return this->children.at(i);
+//    }
 
     /**
      * Verifica se t (informação) existe no vetor de informações do nó.
@@ -98,17 +120,17 @@ public:
      * @param i
      * @return a informação contida no índice i do vetor de informações
      */
-    T at(int const &i) {
-        return this->keys.at(i);
-    }
+//    T at(int const &i) {
+//        return this->keys.at(i);
+//    }
 
-    void removeKeyAt(int const &i) {
-        this->keys.erase(keys.begin() + i);
-    }
+//    void removeKeyAt(int const &i) {
+//        this->keys.erase(keys.begin() + i);
+//    }
 
-    void removeChildAt(int const &i) {
-        this->children.erase(children.begin() + i);
-    }
+//    void removeChildAt(int const &i) {
+//        this->children.erase(children.begin() + i);
+//    }
 
     /**
      * @return true se é um nó folha.
@@ -121,7 +143,7 @@ public:
      * @return true se o nó está cheio.
      */
     bool isFull() {
-        return full;
+        return this->full;
     }
 
     /**
@@ -131,13 +153,13 @@ public:
         return this->order;
     }
 
-    int getSizeOfKeys() {
-        return this->keys.size();
-    }
+//    int getSizeOfKeys() {
+//        return this->keys.size();
+//    }
 
-    int getSizeOfChildren() {
-        return this->children.size();
-    }
+//    int getSizeOfChildren() {
+//        return this->children.size();
+//    }
 
     /**
      * @return endereço do pai (que aponta) em this
