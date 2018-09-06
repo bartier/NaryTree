@@ -5,7 +5,6 @@
 #include <vector>
 #include <algorithm>
 #include <cmath>
-#include <limits>
 
 template<class T>
 class Node {
@@ -55,11 +54,29 @@ public:
             }
         }
 
-        return children.size() - 1;
+        return (unsigned int) children.size() - 1;
     }
+
+//    unsigned int indexOfKey(T const &t) {
+//        for (unsigned int i = 0; i < keys.size(); ++i) {
+//            if (keys[i] == t) {
+//                return i;
+//            }
+//        }
+//        // lançar excessão (?)
+//    }
 
     bool existsChildAt(unsigned int const &i) {
         return children.at(i);
+    }
+
+    bool hasChilds() {
+        for (int i = 0; i < children.size(); ++i) {
+            if (children[i] != NULL) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -67,14 +84,14 @@ public:
      * @return o índice que o filho está no vetor de filhos
      * @return -1 se o filho não existe
      */
-//    int indexOfChild(Node<T> *c) {
-//        for (int i = 0; i < children.size(); ++i) {
-//            if (children.at(i) == c) {
-//                return i;
-//            }
-//        }
-//        return -1; // o filho não existe no vetor de filhos
-//    }
+    int indexOfChild(Node<T> *c) {
+        for (int i = 0; i < children.size(); ++i) {
+            if (children.at(i) == c) {
+                return i;
+            }
+        }
+        return -1; // o filho não existe no vetor de filhos
+    }
 
     /**
      * Insere no vetor de informações a chave como parâmetro.
@@ -86,6 +103,13 @@ public:
 
         if (keys.size() == order - 1) {
             this->full = true;
+        }
+    }
+
+    void removeKey(T const &t) {
+        auto position = std::find(keys.begin(), keys.end(), t);
+        if (position != keys.end()) { // keys.end() means the element was not found
+            keys.erase(position);
         }
     }
 
@@ -144,6 +168,10 @@ public:
      */
     bool isFull() {
         return this->full;
+    }
+
+    bool isEmpty() {
+        return this->keys.size() == 0;
     }
 
     /**

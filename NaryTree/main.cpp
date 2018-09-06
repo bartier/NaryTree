@@ -1,4 +1,4 @@
-#include <iostream>
+
 #include "NaryTree.h"
 
 int main() {
@@ -28,6 +28,8 @@ int main() {
     myNaryTree.insert(74);
     myNaryTree.insert(77);
     myNaryTree.insert(83);
+
+    myNaryTree.remove(100);
 
     return 0;
 }

@@ -43,6 +43,10 @@ public:
         }
     }
 
+    /**
+     * Insere na árvore a informação (chave) passada como parâmetro.
+     * @param t é a informação a ser inserida.
+     */
     void insert(T const &t) {
 
         //TODO: se a árvore já possuir uma chave igual, lançar exceção.
@@ -94,7 +98,44 @@ public:
     }
 
     void remove(T const &t) {
-        //TODO: método de remover um elemento da árvore é igualmente complicado ao de inserir
+
+        Node<T> *ancestor = nullptr;
+        Node<T> *tmp = root;
+
+        int indexOfChild;
+
+        while (!tmp->holds(t)) {
+            ancestor = tmp;
+            tmp = tmp->next(t);
+
+            if (tmp == nullptr) {
+                // informação não existe, lançar excessão...
+                throw -666; // temporário
+            }
+        }
+
+        if (!tmp->hasChilds()) {
+            tmp->removeKey(t);
+
+            if (tmp->isEmpty()) {
+
+                if (ancestor != nullptr) {
+                    indexOfChild = ancestor->indexOfChild(tmp);
+                    ancestor->insertChildAt(indexOfChild, NULL);
+                } else {
+                    this->root = nullptr;
+                }
+                delete tmp;
+            }
+        }
+
+        // Caso em que o nó tem filhos
+        // subir um substituto
+        // se tiver na esquerda, subir o maior
+        // se tiver na direita, subir o menor
+
+        // caso não tenha substitutos...
+
     }
 
     /**
