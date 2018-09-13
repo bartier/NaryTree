@@ -1,4 +1,3 @@
-
 #include "NaryTree.h"
 
 int main() {
@@ -30,6 +29,8 @@ int main() {
     myNaryTree.insert(83);
 
     myNaryTree.remove(100);
+
+    std::cout << myNaryTree << std::endl;
 
     return 0;
 }

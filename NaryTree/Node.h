@@ -6,125 +6,72 @@
 #include <algorithm>
 #include <cmath>
 
+/**
+ * Representação de um nó de uma árvore enária (árvore de ordem n).
+ * @tparam T é o tipo de informação que o nó guarda.
+ */
 template<class T>
 class Node {
 public:
 
-    explicit Node<T>(unsigned int const &order) : order(order) {
-
-        this->keys.reserve(order - 1);
-        this->children.resize(order);
-
-        leaf = false;
-        root = false;
-        full = false;
-    }
+    /**
+     * Construtor do nó que recebe a ordem da árvore que ele pertence.
+     * @param order ordem da árvore que o nó pertence.
+     */
+    explicit Node<T>(unsigned int const &order);
 
     /**
      * Retorna o "sub nó" que a chave t poderia estar
      * @param t é a chave que deseja ser "buscada" ou localizada possível nó de inserção
      * @return nó que a chave poderia estar
      */
-    Node<T> *next(T const &t) {
-
-        if (t < keys[0])
-            return children[0];
-
-        for (int i = 1; i <= keys.size(); i++) {
-            if (t < keys[i] && t > keys[i - 1]) {
-                return children[i];
-            }
-        }
-
-        return children[children.size() - 1];
-    }
+    Node<T> *next(T const &t);
 
     /**
      * Retorna o índice ideal para a criação do filho
      * @param t
      * @return
      */
-    unsigned int indexOfNext(T const &t) {
-        if (t < keys[0])
-            return 0;
-
-        for (unsigned int i = 1; i <= keys.size(); i++) {
-            if (t < keys[i] && t > keys[i - 1]) {
-                return i;
-            }
-        }
-
-        return (unsigned int) children.size() - 1;
-    }
-
-//    unsigned int indexOfKey(T const &t) {
-//        for (unsigned int i = 0; i < keys.size(); ++i) {
-//            if (keys[i] == t) {
-//                return i;
-//            }
-//        }
-//        // lançar excessão (?)
-//    }
-
-    bool existsChildAt(unsigned int const &i) {
-        return children.at(i);
-    }
-
-    bool hasChilds() {
-        for (int i = 0; i < children.size(); ++i) {
-            if (children[i] != NULL) {
-                return true;
-            }
-        }
-        return false;
-    }
+    unsigned int indexOfNext(T const &t);
 
     /**
-     * @param c
-     * @return o índice que o filho está no vetor de filhos
+     * Verifica se existe um filho no índice indicado.
+     * @param i é o índice a ser consultado.
+     * @return true se existe filho (ou seja, diferente de NULL).
+     */
+    bool existsChildAt(unsigned int const &i);
+
+    /**
+     * Verifica se o nó possui filhos (ou seja, no mínimo 1).
+     * @return true se número de filhos > 0, caso contrário false.
+     */
+    bool hasChilds();
+
+    /**
+     * @param c é filho a ser utilizado para consultar seu índice no vetor.
+     * @return o índice que o filho passado como parâmetro está no vetor de filhos.
      * @return -1 se o filho não existe
      */
-    int indexOfChild(Node<T> *c) {
-        for (int i = 0; i < children.size(); ++i) {
-            if (children.at(i) == c) {
-                return i;
-            }
-        }
-        return -1; // o filho não existe no vetor de filhos
-    }
+    int indexOfChild(Node<T> *c);
 
     /**
-     * Insere no vetor de informações a chave como parâmetro.
-     * @param t
+     * Insere no vetor de informações (também chamado de chaves) a chave como parâmetro.
+     * @param t é a informação a ser inserida.
      */
-    void insertKey(T const &t) {
-        this->keys.push_back(t);
-        std::sort(keys.begin(), keys.end());
+    void insertKey(T const &t);
 
-        if (keys.size() == order - 1) {
-            this->full = true;
-        }
-    }
+    /**
+     * Remove no vetor de informações (também chamado de chaves) a chave como parâmetro.
+     * @param t é a informação a ser removida.
+     */
+    void removeKey(T const &t);
 
-    void removeKey(T const &t) {
-        auto position = std::find(keys.begin(), keys.end(), t);
-        if (position != keys.end()) { // keys.end() means the element was not found
-            keys.erase(position);
-        }
-    }
-
-    //TODO: não inserir em filhos já inseridos (?)
-    void insertChildAt(int index, Node<T> *ch) {
-        // não insere filhos já inseridos
-//        if (std::find(children.begin(), children.end(), ch) != children.end()) {
-//            return;
-//        }
-        this->children.at(index) = ch;
-    }
-//
-//    Node<T> *childAt(int const &i) {
-//        return this->children.at(i);
-//    }
+    /**
+     * Insere o filho no índice passado como parâmetro.
+     * @param index índice a ser utilizado para inserção.
+     * @param ch filho utilizado na inserção.
+     */
+    void insertChildAt(int index, Node<T> *ch); //TODO: não inserir em filhos já inseridos (?)
 
     /**
      * Verifica se t (informação) existe no vetor de informações do nó.
@@ -132,99 +79,44 @@ public:
      * @return true se ele existe no vetor de informações
      * @return false se ela NÃO existe no vetor de informações
      */
-    bool holds(T const &t) {
-        if (std::find(keys.begin(), keys.end(), t) != keys.end()) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Retorna a informação (chave) do índice i passado como parâmetro
-     * @param i
-     * @return a informação contida no índice i do vetor de informações
-     */
-//    T at(int const &i) {
-//        return this->keys.at(i);
-//    }
-
-//    void removeKeyAt(int const &i) {
-//        this->keys.erase(keys.begin() + i);
-//    }
-
-//    void removeChildAt(int const &i) {
-//        this->children.erase(children.begin() + i);
-//    }
+    bool holds(T const &t);
 
     /**
      * @return true se é um nó folha.
      */
-    bool isLeaf() {
-        return this->leaf;
-    }
+    bool isLeaf();
 
     /**
      * @return true se o nó está cheio.
      */
-    bool isFull() {
-        return this->full;
-    }
+    bool isFull();
 
-    bool isEmpty() {
-        return this->keys.size() == 0;
-    }
+    /**
+     * Verifica se o nó está vazio.
+     * @return true se ele está vazio.
+     */
+    bool isEmpty();
 
     /**
      * @return ordem do nó e consequentemente ordem da árvore que ele está.
      */
-    int getOrder() {
-        return this->order;
-    }
-
-//    int getSizeOfKeys() {
-//        return this->keys.size();
-//    }
-
-//    int getSizeOfChildren() {
-//        return this->children.size();
-//    }
-
-    /**
-     * @return endereço do pai (que aponta) em this
-     */
-//    Node<T> *getAncestor() {
-//        return ancestor;
-//    }
+    int getOrder();
 
     /**
      * Seta se o nó é uma raiz.
      * @param state
      */
-    void setRootState(bool state) {
-        this->root = state;
-    }
+    void setRootState(bool state);
 
     /**
      * Seta se o nó é uma folha.
      * @param state
      */
-    void setLeafState(bool state) {
-        this->leaf = state;
-    }
-
-    /**
-     * Pai (que aponta) o nó atual.
-     * @param a
-     */
-//    void setAncestor(Node<T> *a) {
-//        ancestor = a;
-//    }
+    void setLeafState(bool state);
 
 private:
     std::vector<T> keys;
     std::vector<Node<T> *> children;
-
-    //Node<T> *ancestor;
 
     int order;
 
@@ -233,5 +125,7 @@ private:
     bool full;
 
 };
+
+#include "Node.cpp"
 
 #endif //NARYTREE_NODE_H
