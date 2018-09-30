@@ -6,7 +6,7 @@
 
 /**
  * Representação de uma árvore de ordem n (árvore enária).
- * @see https://en.wikipedia.org/wiki/K-ary_tree
+ * @see http://www.inf.ufsc.br/~r.mello/ine5384/13-MetodosPesquisa2.pdf
  * @tparam T
  */
 template<class T>
