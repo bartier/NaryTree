@@ -6,6 +6,8 @@ Node<T>::Node(unsigned int const &order) {
     leaf = false;
     root = false;
     full = false;
+
+    this->order = order;
 }
 
 template<class T>
