@@ -1,3 +1,6 @@
+#include <algorithm>
+#include <cmath>
+
 template<class T>
 Node<T>::Node(unsigned int const &order) {
     this->keys.reserve(order - 1);

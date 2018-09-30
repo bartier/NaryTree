@@ -56,6 +56,6 @@ private:
 
 };
 
-#include "NaryTree.cpp"
+#include "NaryTree.inl"
 
 #endif //NARYTREE_NARYTREE_H

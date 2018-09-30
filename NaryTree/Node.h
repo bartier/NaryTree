@@ -3,8 +3,6 @@
 
 
 #include <vector>
-#include <algorithm>
-#include <cmath>
 
 /**
  * Representação de um nó de uma árvore enária (árvore de ordem n).
@@ -126,6 +124,6 @@ private:
 
 };
 
-#include "Node.cpp"
+#include "Node.inl"
 
 #endif //NARYTREE_NODE_H
