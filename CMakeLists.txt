@@ -3,4 +3,4 @@ project(NaryTree)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(NaryTree main.cpp NaryTree.h Node.h)
+add_executable(NaryTree src/main.cpp src/NaryTree.h src/Node.h)
