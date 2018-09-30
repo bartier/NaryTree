@@ -17,7 +17,8 @@ O que você precisa para instalar e executar o software:
 
 #### Executando o projeto com CLion 2018.2
 
-1. Basta abrir o projeto > no menu clique em 'Run' > Run 'NaryTree'.
+1. Basta abrir o projeto > Abrir CMakeLists.txt > Clique em 'Load CMake project' > 
+2. No menu clique em 'Run' > Run 'NaryTree'.
 
 ## Construído com
 
