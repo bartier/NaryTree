@@ -49,6 +49,7 @@ void NaryTree<T>::insert(const T &t) {
 
     Node<T> *tmp = root;
 
+    //TODO: remover leaf e usar apenas isFull (?)
     while (!tmp->isLeaf()) {
         unsigned int indexTmp = tmp->indexOfNext(t);
 

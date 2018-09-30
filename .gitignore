@@ -65,3 +65,10 @@ fabric.properties
 # Doxygen
 html/
 latex/
+
+# pdfmake (documentation)
+*.aux
+*.idx
+*.out
+*.log
+*.toc
