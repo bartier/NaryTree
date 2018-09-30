@@ -6,7 +6,7 @@ Projeto de ANP (arvore enária de pesquisa) para a matéria de Tópicos em Estru
 
 Essas instruções farão com que você tenha uma cópia do projeto em execução na sua máquina local para fins de desenvolvimento e teste.
 
-Caso deseje saber mais sobre a estrutura do projeto, acesse a documentação das classes. [Clique aqui para acessá-la.](https://github.com/bartier/NaryTree/files/2431720/pt-br.pdf)
+Caso deseje saber mais sobre a estrutura do projeto, acesse a documentação das classes. [Clique aqui para acessá-la.](https://github.com/bartier/NaryTree/blob/master/docs/pt-br.pdf)
 
 ### Pré-requisitos
 
