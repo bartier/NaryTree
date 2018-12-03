@@ -79,6 +79,10 @@ void NaryTree<T>::insert(const T &t) {
 
 template<class T>
 void NaryTree<T>::remove(const T &t) {
+    if (!this->contains(t)) {
+        throw std::invalid_argument("T does not exist in NaryTree");
+    }
+
     Node<T> *ancestor = nullptr;
     Node<T> *tmp = root;
 
@@ -87,11 +91,6 @@ void NaryTree<T>::remove(const T &t) {
     while (!tmp->holds(t)) {
         ancestor = tmp;
         tmp = tmp->next(t);
-
-        if (tmp == nullptr) {
-            // informação não existe, lançar excessão...
-            throw -666; // temporário
-        }
     }
 
     if (!tmp->hasChilds()) {
@@ -107,17 +106,57 @@ void NaryTree<T>::remove(const T &t) {
             }
             delete tmp;
         }
-    }
+    } else {
+        unsigned int targetIndex = tmp->indexOfInfo(t);
 
-    // Caso em que o nó tem filhos
-    // subir um substituto
-    // se tiver na esquerda, subir o maior
-    // se tiver na direita, subir o menor
-    //////////////////////////////////////
-    //////////////////////////////////////
-    //////////////////////////////////////
-    //////////////////////////////////////
-    // caso não tenha substitutos...
+        if (tmp->existsChildAt(targetIndex)) {
+            // o maior dos menores será o substituto
+            Node<T> *smallInfoNode = tmp->childAt(targetIndex);
+
+            T greaterNodeinformation(smallInfoNode->getBiggestInfo());
+            this->remove(greaterNodeinformation);
+            tmp->setInfo(targetIndex, greaterNodeinformation);
+        }
+        else if (tmp->existsChildAt(targetIndex + 1)) {
+            // o menor dos maiores será o substituto
+            Node<T> *bigInfoNode = tmp->childAt(targetIndex + 1);
+
+            T smallestNodeinformation = bigInfoNode->getSmallestInfo();
+            this->remove(smallestNodeinformation);
+            tmp->setInfo(targetIndex, smallestNodeinformation);
+        } else {
+            // não há filhos na esquerda nem na direita, "sem substitutos"
+            int halfSizeofOrder = getOrder() / 2;
+            if (targetIndex >= halfSizeofOrder) { // deslocar informacoes que estao a esquerda rumo a info a ser excluida
+//                for (unsigned int i = targetIndex; i >= 0; i--) {
+//                    T currentInfo = tmp->getInfoAt(i - 1);
+//                    tmp->setInfo(i, currentInfo);
+//
+//                    Node<T> *nodeToFindSubstitute = tmp->childAt(i - 1);
+//                    if (nodeToFindSubstitute != nullptr) {
+//                        T substituteInfo(nodeToFindSubstitute->getBiggestInfo());
+//                        this->remove(substituteInfo);
+//                        tmp->setInfo( i - 1, substituteInfo);
+//                        break;
+//                    }
+//                }
+
+            } else { // deslocar informacoes que estao a direita rumo a info a ser excluida
+//                for (unsigned int i = targetIndex; i >= 0; i++) {
+//                    T currentInfo = tmp->getInfoAt(i + 1);
+//                    tmp->setInfo(i, currentInfo);
+//
+//                    Node<T> *nodeToFindSubstitute = tmp->childAt(i + 1);
+//                    if (nodeToFindSubstitute != nullptr) {
+//                        T substituteInfo(nodeToFindSubstitute->getSmallestInfo());
+//                        this->remove(substituteInfo);
+//                        tmp->setInfo( i + 1, substituteInfo);
+//                        break;
+//                    }
+//                }
+            }
+        }
+    }
 }
 
 template<typename U>

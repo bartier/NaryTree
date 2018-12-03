@@ -131,3 +131,37 @@ void Node<T>::setLeafState(bool state) {
     this->leaf = state;
 }
 
+template<class T>
+int Node<T>::indexOfInfo(const T &t) {
+    for (unsigned int i = 0; i < keys.size(); i++) { // <=
+        if (keys[i] == t)
+            return i;
+        }
+}
+
+template<class T>
+Node<T> *Node<T>::childAt(unsigned int index) {
+    return children[index];
+}
+
+template<class T>
+void Node<T>::setInfo(unsigned int index, const T &info) {
+    this->keys[index] = info;
+}
+
+template<class T>
+T Node<T>::getBiggestInfo() {
+    return this->keys[keys.size() - 1];
+}
+
+template<class T>
+T Node<T>::getSmallestInfo() {
+    return this->keys[0];
+}
+
+template<class T>
+T Node<T>::getInfoAt(unsigned int index) {
+    return this->keys[index];
+}
+
+

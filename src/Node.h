@@ -112,6 +112,16 @@ public:
      */
     void setLeafState(bool state);
 
+    int indexOfInfo(T const &t);
+
+    Node<T> *childAt(unsigned int index);
+
+    void setInfo(unsigned int index, const T &info);
+
+    T getBiggestInfo();
+    T getSmallestInfo();
+    T getInfoAt(unsigned int index);
+
 private:
     std::vector<T> keys;
     std::vector<Node<T> *> children;
