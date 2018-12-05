@@ -151,11 +151,20 @@ void Node<T>::setInfo(unsigned int index, const T &info) {
 
 template<class T>
 T Node<T>::getBiggestInfo() {
+    if (this->children[this->children.size() - 1] != nullptr) {
+        Node<T> *x = this->children[this->children.size() - 1];
+        return x->getBiggestInfo();
+
+    }
     return this->keys[keys.size() - 1];
 }
 
 template<class T>
 T Node<T>::getSmallestInfo() {
+    if (this->children[0] != nullptr) {
+        Node<T> *x = this->children[0];
+        return x->getSmallestInfo();
+    }
     return this->keys[0];
 }
 
