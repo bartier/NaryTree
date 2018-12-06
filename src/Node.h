@@ -121,6 +121,7 @@ public:
     T getBiggestInfo();
     T getSmallestInfo();
     T getInfoAt(unsigned int index);
+    void offset(int direction, int start, int end);
 
 private:
     std::vector<T> keys;

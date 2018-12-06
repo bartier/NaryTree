@@ -173,4 +173,18 @@ T Node<T>::getInfoAt(unsigned int index) {
     return this->keys[index];
 }
 
+template<class T>
+void Node<T>::offset(int direction, int start, int end) {
+    if (direction > 0) {
+        for (int i = end; i >= start ; --i) {
+            this->keys[i] = this->keys[i - 1];
+        }
+    } else {
+        for (int i = end; i <= start ; ++i) {
+            this->keys[i] = this->keys[i + 1];
+        }
+    }
+
+}
+
 

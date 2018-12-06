@@ -126,11 +126,28 @@ void NaryTree<T>::remove(const T &t) {
             tmp->setInfo(targetIndex, smallestNodeinformation);
         } else {
             // não há filhos na esquerda nem na direita, "sem substitutos"
-            bool term
-            for (int i=0; i < this->getOrder - 1; i++) {
+            for (int i=0; i < this->getOrder() - 1; i++) {
+
                 if (tmp->existsChildAt(i)) {
-                    // começar da qui
+                    Node<T> *nodeToFindSubstitute = tmp->childAt(i);
+
+                    if (i > targetIndex) { // passou da informacao
+                        T infoToSubstitute = nodeToFindSubstitute->getSmallestInfo();
+                        T key(infoToSubstitute);
+                        this->remove(infoToSubstitute);
+                        tmp->offset(-1, i - 1, targetIndex); // -1 (deslocamento esquerda)
+                        tmp->setInfo(i - 1, infoToSubstitute);
+                    } else {
+                        Node<T> *nodeOfBiggest = tmp->childAt(i);
+                        T infoToSubstitute = nodeToFindSubstitute->getBiggestInfo();
+                        T key(infoToSubstitute);
+                        this->remove(infoToSubstitute);
+                        tmp->offset(1, i - 1, targetIndex); // 1 (deslocamento direita)
+                        tmp->setInfo(i - 1, infoToSubstitute);
+                    }
+                    break;
                 }
+
             }
 
 
