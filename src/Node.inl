@@ -187,4 +187,12 @@ void Node<T>::offset(int direction, int start, int end) {
 
 }
 
+template<typename U>
+std::ostream &operator<<(std::ostream &os, const Node<U> &n) {
+    for (int i = 0; i < n.keys.size(); ++i) {
+        os << n.keys[i] << (i + 1 == n.keys.size() ? "" : "-");
+    }
+    return os;
+}
+
 

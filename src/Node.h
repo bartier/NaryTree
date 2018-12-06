@@ -123,6 +123,9 @@ public:
     T getInfoAt(unsigned int index);
     void offset(int direction, int start, int end);
 
+    template<typename U>
+    friend std::ostream &operator<<(std::ostream &os, const Node<U> &node);
+
 private:
     std::vector<T> keys;
     std::vector<Node<T> *> children;

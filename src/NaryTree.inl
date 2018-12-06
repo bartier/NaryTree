@@ -1,3 +1,5 @@
+#include <queue>
+
 template<class T>
 NaryTree<T>::NaryTree(unsigned int const &order) : order(order) {
     this->root = nullptr;
@@ -157,7 +159,32 @@ void NaryTree<T>::remove(const T &t) {
 
 template<typename U>
 std::ostream &operator<<(std::ostream &os, const NaryTree<U> &n) {
-    os << "============| N-ARY TREE INFO |===================\n";
-    os << "Order: " << n.getOrder() << "\n";
-    //TODO: mostrar elementos, usar percurso por nível
+    std::queue<Node<U> *> queue;
+    Node<U> *currentNode = n.root;
+
+    if (currentNode == nullptr) {
+        os << "{"; // return coloca o "}"
+    } else {
+        os << "{";
+        while (currentNode != nullptr) { // currentNode é igual a nullptr quando a fila fica vazia
+            os << *currentNode;
+
+            // adiciona os filhos do nó atual na fila
+            for (int i = 0; i <= currentNode->getOrder() - 1; ++i) {
+                if (currentNode->childAt(i) != nullptr) {
+                    queue.push(currentNode->childAt(i));
+                }
+            }
+
+            if (queue.size() > 0) {
+                currentNode = queue.front();
+                queue.pop();
+            } else {
+                currentNode = nullptr;
+            }
+
+            os << (currentNode == nullptr ? "" : ","); // currentNode == nullptr indica que é o ultimo
+        }                                              // e portanto não coloca ','
+    }
+    return os << "}";
 }
